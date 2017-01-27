@@ -1,0 +1,17 @@
+{
+  "name": "timemanagerclient",
+  "description": "Client for the Timemanager Server",
+  "main": "server.js",
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
