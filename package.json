@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "MPrattinger",
+  "repository": "https://github.com/mprattinger/tmclient.git",
   "license": "ISC",
   "dependencies": {
     "angular-ui-router": "^0.4.2",
