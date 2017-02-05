@@ -8,61 +8,53 @@ var os = require("os");
 var winston = require("winston");
 var fs = require("fs");
 var routes = require("./routes")
+var sockets = require("./sockets/sockets");
 
-global.rootDir = __dirname;
+module.exports.runServer = function () {
+    var app = express();
 
-winston.remove(winston.transports.Console);
-winston.add(winston.transports.Console, { level: "info", colorize: true });
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    app.use(cookieParser());
+    app.use(express.static(path.join(__dirname, "public")));
 
-var winstonLogDir = path.join(__dirname, "log");
-if (!fs.existsSync(winstonLogDir)) {
-    //Erzeugen
-    fs.mkdirSync(winstonLogDir);
+    app.use('/lib', express.static(__dirname + '/bower_components'));
+    app.use('/lib2', express.static(__dirname + '/node_modules'));
+
+    app.use((req, res, next) => {
+        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+        res.header("Pragma", "no-cache");
+        res.header("Expires", "0");
+        next();
+    });
+
+    app.use((req, res, next) => {
+        var body = null;
+        if (req.body) body = req.body;
+        winston.log("info", req.url, { url: req.url, method: req.method, body: body });
+        next();
+    });
+
+    //Routes
+    app.use("/api", routes);
+
+    app.use((req, res, next) => {
+        var err = new Error("Not found");
+        res.status(404);
+        next(err);
+    });
+
+    var port = process.env.PORT || 8080;
+
+    app.set("port", port);
+    var server = app.listen(app.get("port"), () => {
+        winston.log("info", "Express server listening on port " + server.address().port);
+    });
+
+    return {
+        "expressApp": app,
+        "server": server
+    };
+
+    // var socketServer = sockets.listen(server);
 }
-winstonLogDir = path.join(winstonLogDir, "tmc.log");
-winston.add(require("winston-daily-rotate-file"), {
-    filename: winstonLogDir,
-    datePattern: ".dd-MM-yyyy",
-    level: "info"
-});
-winston.info("TMC gestartet!");
-
-var app = express();
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-
-app.use('/lib',  express.static(__dirname + '/bower_components'));
-app.use('/lib2',  express.static(__dirname + '/node_modules'));
-
-app.use((req, res, next) => {
-    res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-    res.header("Pragma", "no-cache");
-    res.header("Expires", "0");
-    next();
-});
-
-app.use((req, res, next) => {
-    var body = null;
-    if (req.body) body = req.body;
-    winston.log("info", req.url, { url: req.url, method: req.method, body: body });
-    next();
-});
-
-//Routes
-app.use("/api", routes);
-
-app.use((req, res, next) => {
-    var err = new Error("Not found");
-    res.status(404);
-    next(err);
-});
-
-var port = process.env.PORT || 8080;
-
-app.set("port", port);
-var server = app.listen(app.get("port"), () => {
-    winston.log("info", "Express server listening on port " + server.address().port);
-});

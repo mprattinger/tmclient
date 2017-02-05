@@ -1,4 +1,4 @@
-var app = angular.module("tmclient", ["ui.router", "tmclient.home"]);
+var app = angular.module("tmclient", ["ui.router", "tmclient.home", "tmclient.services"]);
 
 app.config(["$urlRouterProvider", "$stateProvider", function($urlRouterProvider, $stateProvider){
     $urlRouterProvider.otherwise("/");
