@@ -2,8 +2,10 @@ var winston = require("winston");
 
 var logger = require("./logger");
 var httpServer = require("./server");
-var worker = require("./workers/workerModule");
+// var worker = require("./workers/workerModule");
+var cardCheckerMod = require("./cardChecker/checker");
 var sockets = require("./sockets/sockets");
+var uiMod = require("./ui/ui");
 
 global.rootDir = __dirname;
 
@@ -12,21 +14,23 @@ logger.configLogger();
 winston.info("TMC gestartet!");
 
 var server = httpServer.runServer();
-var cardJob = worker.cardChecker();
+// var cardJob = worker.cardChecker();
+var cardChecker = new cardCheckerMod();
+cardChecker.init();
+// cardChecker.checkCard();
+var ui = new uiMod();
+ui.init();
 var io = sockets.listen(server.server);
 
-process.stdin.resume();
-process.on("exit", function (code) {
-    console.log('Process exit');
-
-    var job = { "task": "stop" };
-    var jobStr = JSON.stringify(job);
-    cardJob.send(JSON.stringify(job), function (msg) {
-        winston.info("Backgrounder callback: " + msg);
-    });
-
-    process.exit(code);
+cardChecker.on("cardDetected", function(uid){
+    io.emit("cardDetected", uid);
+})
+ui.on("lcdUpdated", function(uiData){
+    io.emit("lcdUpdated", uiData);
 });
+ui.on("statusButtonPressed", function(){
+    io.emit("statusButtonPressed");
+})
 
 // Catch CTRL+C
 process.on ('SIGINT', () => {

@@ -1,2 +1,49 @@
 <h2>Home-View</h2>
-<p>{{message}}
+<div class="container">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>Line1: {{ui.line1}}</p>
+                <p>Line2: {{ui.line2}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>Button für Statusänderung:</p>
+                <button class="btn btn-default" ng-click="changeStatus()">Status ändern</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>RFID-Card Id</p>
+                <p>
+
+                    <input type="text" placeholder="xxx" style="width: 50px; vertical-align: middle" ng-model="card.one" />-
+                    <input type="text" placeholder="xxx" style="width: 50px" ng-model="card.second" />-
+                    <input type="text" placeholder="xxx" style="width: 50px" ng-model="card.third">-
+                    <input type="text" placeholder="xxx" style="width: 50px" ng-model="card.fourth" />-
+                    <input type="text" placeholder="xxx" style="width: 50px" ng-model="card.fitht" />
+                </p>
+                <button class="btn btn-default" ng-click="simCard()">Simulate Card</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <td>Logentry</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="log in logs">
+                    <td>{{log.message}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

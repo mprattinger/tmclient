@@ -5,39 +5,74 @@
     <meta charset="UTF-8">
     <title>TimeManager Client</title>
     <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/panel.css" type="text/css">
+    <link rel="stylesheet" href="css/topbar.css" type="text/css">
+    <link rel="stylesheet" href="css/mainnav.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 </head>
 
 <body ng-app="tmclient">
-
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                    aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-                <a class="navbar-brand" href="#">Brand</a>
-            </div>
+    <div id="header">
+        <div class="hamburger">
+			<a href="#" class="mainhamburger">&#9776;</a>
+		</div>
+        <div class="logo">
+            <a href="#">Time<span>Manager</span></a>
         </div>
-    </nav>
+        <!--<div class="userinfo">
+			<div class="username">
+				Guten Tag, Michael <span class="lastname">Prattinger</span>
+			</div>
+			<button type="button" class="btn btn-link navbar-btn navbar-link">
+                    <span class="fa fa-sign-out logout-icon" aria-hidden="true"></span><span class="logout-text">Ausloggen</span>
+                </button>
+		</div>-->
+    </div>
+    <div id="container">
+        <div class="sidebar">
+            <ul class="menu">
+                <li><a href="#"><i class="icon flaticon-busines-card"></i><span>Mitarbeiter</span></a></li>
+                <li><a href="#" class="has-sub-menu"><i class="icon flaticon-work-team"></i><span>Usermanagement</span></a>
+                    <ul class="submenu">
+                        <li><a href="User.html"><i class="icon flaticon-worker-with-tie"></i><span>Butzer</span></a></li>
+                        <li><a href="#"><i class="icon flaticon-chain-of-command"></i><span>Rollen</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="has-sub-menu"><i class="icon flaticon-two-big-gears"></i><span>Einstellungen</span></a>
+                    <ul class="submenu">
+                        <li><a href="#"><i class="icon flaticon-calendar-with-squares"></i><span>Feiertage</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <div ng-controller="alertController">
+                <div ng-repeat="alert in errors">
+                    <div class="alert alert-dismissable" ng-class="alert.class" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>                        
+                        {{alert.msg}}
+                    </div>
+                </div>
+            </div>
 
-    <div class="container">
-        <ui-view></ui-view>
+            <ui-view></ui-view>
+        </div>
     </div>
 
     <script src="lib/jquery/dist/jquery.min.js"></script>
     <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="lib2/angular/angular.min.js"></script>
     <script src="lib2/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="js/nav.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/modules.js"></script>
     <script src="js/app.js"></script>
     <script src="js/modules/home/homeController.js"></script>
     <script src="js/services/socketService.js"></script>
+    <script src="js/modules/alert/alertController.js"></script>
+    <script src="js/modules/nav/navController.js"></script>
 </body>
 
 </html>
