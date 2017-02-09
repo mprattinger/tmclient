@@ -7,10 +7,10 @@ var session = require("express-session");
 var os = require("os");
 var winston = require("winston");
 var fs = require("fs");
-var routes = require("./routes")
+var routesMod = require("./routes")
 var sockets = require("./sockets/sockets");
 
-module.exports.runServer = function () {
+module.exports.runServer = function (ui) {
     var app = express();
 
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,7 +36,8 @@ module.exports.runServer = function () {
     });
 
     //Routes
-    app.use("/api", routes);
+    var routes = new routesMod(ui);
+    app.use("/api", routes.router);
 
     app.use((req, res, next) => {
         var err = new Error("Not found");

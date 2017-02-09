@@ -1,0 +1,33 @@
+#box{
+    width: 600px;
+}
+
+.client-info span{
+    font-weight: 600;
+}
+
+.lcd {
+    background-color: blue;
+    width: 160px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 20px;
+}
+
+.lcd p {
+    font-size: 1.3em;
+    color:white;
+}
+
+.cardid-item {
+    width: 50px;
+}
+
+.cardid-item-sep {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.cardid-item-btn {
+    padding-left: 20px;
+}

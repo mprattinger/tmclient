@@ -1,4 +1,71 @@
-<h2>Home-View</h2>
+<div id="box" class="client-info">
+    <div class="box-top">
+        <h4>Clientinfo</h4>
+    </div>
+    <div class="box-panel">
+        <span>Host:</span> {{system.host}}<br />
+        <span>OS:</span> {{system.os}}<br />
+        <span>IP-Addresse:</span> {{system.ip}}
+    </div>
+</div>
+<div id="box">
+    <div class="box-top">
+        <h4>LCD-Display</h4>
+    </div>
+    <div class="box-panel">
+        <div class="lcd">
+            <p>{{ui.line1}}</p>
+            <p>{{ui.line2}}</p>
+        </div>
+    </div>
+</div>
+<div id="box" class="rfid-card">
+    <div class="box-top">
+        <h4>RFID-Card</h4>
+    </div>
+    <div class="box-panel">
+        <table>
+            <tr>
+                <td><input type="text" class="cardid-item" ng-model="card.first" /></td>
+                <td class="cardid-item-sep">-</td>
+                <td><input type="text" class="cardid-item" ng-model="card.second" /></td>
+                <td class="cardid-item-sep">-</td>
+                <td><input type="text" class="cardid-item" ng-model="card.third" /></td>
+                <td class="cardid-item-sep">-</td>
+                <td><input type="text" class="cardid-item" ng-model="card.fourth" /></td>
+                <td class="cardid-item-btn"><button class="btn btn-default" ng-click="simCard()">Card-Id senden</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="box">
+    <div class="box-top">
+        <h4>Gehen / Kommen Status</h4>
+    </div>
+    <div class="box-panel">
+        <button class="btn btn-default" ng-click="changeStatus()">Status ändern</button>
+    </div>
+</div>
+<div id="box">
+    <div class="box-top">
+        <h4>Log</h4>
+    </div>
+    <div class="box-panel">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <td>Logentry</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="log in logs">
+                    <td>{{log.message}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--<h2>Home-View</h2>
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
@@ -46,4 +113,4 @@
             </tbody>
         </table>
     </div>
-</div>
+</div>-->

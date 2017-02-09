@@ -2,8 +2,8 @@ var winston = require("winston");
 
 var logger = require("./logger");
 var httpServer = require("./server");
-// var worker = require("./workers/workerModule");
-var cardCheckerMod = require("./cardChecker/checker");
+var workerMod = require("./worker/workerModule");
+// var cardCheckerMod = require("./cardChecker/checker");
 var sockets = require("./sockets/sockets");
 var uiMod = require("./ui/ui");
 
@@ -13,18 +13,21 @@ logger.configLogger();
 
 winston.info("TMC gestartet!");
 
-var server = httpServer.runServer();
-// var cardJob = worker.cardChecker();
-var cardChecker = new cardCheckerMod();
-cardChecker.init();
+var worker = new workerMod();
+
+// var cardChecker = new cardCheckerMod();
+// cardChecker.init();
 // cardChecker.checkCard();
 var ui = new uiMod();
 ui.init();
+
+var server = httpServer.runServer(ui);
 var io = sockets.listen(server.server);
 
-cardChecker.on("cardDetected", function(uid){
-    io.emit("cardDetected", uid);
-})
+worker.startCardChecker(function(uid){
+    io.emit("cardDetected", uid)
+});
+
 ui.on("lcdUpdated", function(uiData){
     io.emit("lcdUpdated", uiData);
 });
@@ -34,6 +37,7 @@ ui.on("statusButtonPressed", function(){
 
 // Catch CTRL+C
 process.on ('SIGINT', () => {
+    if(worker) worker.stopCardChecker();
   console.log ('\nCTRL+C...');
   process.exit (0);
 });
