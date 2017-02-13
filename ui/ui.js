@@ -13,7 +13,7 @@ class Ui extends events.EventEmitter {
         super();
         var that = this;
 
-        if(os.platform == "linux"){
+        if (os.platform == "linux") {
             var btnMod = require("./statusButton");
             that.btn = new btnMod();
         } else {
@@ -25,22 +25,26 @@ class Ui extends events.EventEmitter {
         this.lcd = new lcdMod();
         this.splashShowTime = 5000;
         this.statusSwitchTimeout = 5000;
+        this.checkedInTimeout = 5000;
         this.statusGo = "Gehen";
         this.statusCome = "Kommen";
         this.go = this._getStandardStatus();
 
-        this.lcd.on("lcdUpdated", function(lcdData){
+        this.lcd.on("lcdUpdated", function (lcdData) {
             that.emit("lcdUpdated", lcdData);
         })
 
-        that.btn.on("statusButtonPressed", function(){
+        that.btn.on("statusButtonPressed", function () {
             that.emit("statusButtonPressed");
             that.changeStatus();
         })
     }
 
-    init() {
+    init(io) {
         var that = this;
+
+        this.io = io;
+
         that.initUi().then(function () {
             return that.showSplash();
         }).then(function () {
@@ -48,6 +52,13 @@ class Ui extends events.EventEmitter {
         }).then(function () {
             that.emit("uiReady");
         });
+
+        that.on("lcdUpdated", function (uiData) {
+            that.io.emit("lcdUpdated", uiData);
+        });
+        that.on("statusButtonPressed", function () {
+            that.io.emit("statusButtonPressed");
+        })
     }
 
     initUi() {
@@ -84,7 +95,7 @@ class Ui extends events.EventEmitter {
         that.lcd.setLine1(that._getTimeLine());
         that.lcd.setLine2(that._getStatusLine());
         this.lcd.updateLcd().then(function () {
-            setInterval(function () {
+            that.intervalId = setInterval(function () {
                 that.lcd.setLine1(that._getTimeLine());
                 that.lcd.setLine2(that._getStatusLine());
                 that.lcd.updateLcd()
@@ -108,6 +119,18 @@ class Ui extends events.EventEmitter {
         }, that.statusSwitchTimeout);
 
         return deferred.promise;
+    }
+
+    empCheckedIn(data) {
+        var that = this;
+        clearInterval(this.intervalId);
+        this.lcd.setLine1("TimeManager 1.0");
+        this.lcd.setLine2("(c) MPrattinger");
+        this.lcd.updateLcd().then(function () {
+            setTimeout(function () {
+                that.runStandardUi();
+            }, that.checkedInTimeout);
+        });
     }
 
     close() {

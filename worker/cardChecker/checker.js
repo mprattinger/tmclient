@@ -44,7 +44,7 @@ class Checker extends events.EventEmitter {
 			that.lastCard = new Date();
 			var uid = resp.data;
 			var uidStr = uid[0].toString(16) + "-" + uid[1].toString(16) + "-" + uid[2].toString(16) + "-" + uid[3].toString(16);
-			that.emit("cardDetected", uidStr + " - " + diff);
+			that.emit("cardDetected", uidStr + "@" + diff);
 		}
 		console.log("Cardchecking finished!");
 	}

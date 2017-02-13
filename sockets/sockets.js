@@ -1,3 +1,5 @@
+"use strict";
+
 var ioMod = require("socket.io");
 var winston = require("winston");
 var os = require("os");

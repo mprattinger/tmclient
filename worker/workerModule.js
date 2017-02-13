@@ -24,7 +24,10 @@ class Worker{
              //that.emit(msg.type, msg.payload);
              var data = JSON.parse(msg);
              if(data.type == "cardDetected") {
-                 that.callback(data.payload);
+                 //Aufbereiten cardid@diff
+                 var d = data.payload;
+                 var parts = d.split("@");
+                 that.callback(parts[0]);
              }
         });
     }
