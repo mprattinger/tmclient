@@ -7,16 +7,20 @@ var events = require("events");
 
 class TimeManagerServerService extends events.EventEmitter {
 
-    constructor() {
+    constructor(db) {
         super();
 
         //Serveradresse laden -> TODO
         this.server = "localhost";
         this.serverPort = 55319;
         this.apiUrl = "/api/timemanager";
+
+        this.db = db;
     }
 
     sendCard(cardId, go) {
+        var that = this;
+
         winston.info("Sendung CardId " + cardId + " with go is " + go + "!");
         //Build payload
         var payload = {};
@@ -45,22 +49,22 @@ class TimeManagerServerService extends events.EventEmitter {
                     //User wurde ein/ausgecheckt
                     winston.info("Received Ok from the server with data " + JSON.stringify(data.data));
                     //Info anzeigen
-                    this.emit("checkedIn", data.data);
+                    that.emit("checkedIn", data.data);
                     break;
                 case 400:
                     winston.error("Bad request send to server");
-                    this.emit("error", "Bad request send to server");
+                    that.emit("error", "Bad request send to server");
                     break;
                 case 404:
                     //Die CardId wurde in der Datenbank nicht gefunden und konnte keinen Mitarbeiter zugeordnet werden
-                    winston.warning("CardID was not found in db and no employee could be determined!");
+                    winston.warn("CardID was not found in db and no employee could be determined!");
                     //CardId merken
-                    
+                    that.db.storeUnknownCard(cardId);
                     break;
                 default:
                     winston.error("StatusCode " + data.statusCode + " not processed!");
                     //deferred.reject("StatusCode not processed -> " + data.statusCode);
-                    this.emit("error", "StatusCode not processed -> " + data.statusCode);
+                    that.emit("error", "StatusCode not processed -> " + data.statusCode);
                     break;
             }
         }, function (err) {

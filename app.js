@@ -6,21 +6,25 @@ var logger = require("./logger");
 var sockets = require("./sockets/sockets");
 var httpServer = require("./server");
 var hardware = require("./hardware");
+var dbMod = require("./services/databaseService");
 // var cardCheckerMod = require("./cardChecker/checker");
 
 var uiMod = require("./ui/ui");
 
 global.rootDir = __dirname;
 
+var ui = new uiMod();
+var db = new dbMod();
+
 logger.configLogger();
 
 winston.info("TMC gestartet!");
 
-var ui = new uiMod();
-
 var server = httpServer.runServer(ui);
 var io = sockets.listen(server.server);
-var hw = hardware.initHardware(io, ui);
+var hw = hardware.initHardware(io, ui, db);
+
+logger.configSocketLogger(io);
 
 ui.init(io);
 

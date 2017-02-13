@@ -17,4 +17,12 @@ module.exports.configLogger = function () {
         datePattern: ".dd-MM-yyyy",
         level: "info"
     });
+};
+
+module.exports.configSocketLogger = function(io){
+    var socketLog = require("./services/socketLogger").SocketLogger;
+
+    winston.add(winston.transports.SocketLogger,{
+        "io": io
+    });
 }
