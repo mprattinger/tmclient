@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/topbar.css" type="text/css">
     <link rel="stylesheet" href="css/mainnav.css" type="text/css">
     	<link rel="stylesheet" href="css/home.css" type="text/css">
+        <link rel="stylesheet" href="css/missingc.css" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 </head>
 
@@ -34,30 +35,11 @@
     <div id="container">
         <div class="sidebar">
             <ul class="menu">
-                <li><a href="#"><i class="icon flaticon-busines-card"></i><span>Mitarbeiter</span></a></li>
-                <li><a href="#" class="has-sub-menu"><i class="icon flaticon-work-team"></i><span>Usermanagement</span></a>
-                    <ul class="submenu">
-                        <li><a href="User.html"><i class="icon flaticon-worker-with-tie"></i><span>Butzer</span></a></li>
-                        <li><a href="#"><i class="icon flaticon-chain-of-command"></i><span>Rollen</span></a></li>
-                    </ul>
-                </li>
-                <li><a href="#" class="has-sub-menu"><i class="icon flaticon-two-big-gears"></i><span>Einstellungen</span></a>
-                    <ul class="submenu">
-                        <li><a href="#"><i class="icon flaticon-calendar-with-squares"></i><span>Feiertage</span></a></li>
-                    </ul>
-                </li>
+                <li><a ui-sref="home" ui-sref-active="active"><i class="icon flaticon-home"></i><span>Home</span></a></li>
+                <li><a ui-sref="missingcards" ui-sref-active="active"><i class="icon flaticon-busines-card"></i><span>Unbekannte Chips</span></a></li>
             </ul>
         </div>
         <div class="content">
-            <div ng-controller="alertController">
-                <div ng-repeat="alert in errors">
-                    <div class="alert alert-dismissable" ng-class="alert.class" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>                        
-                        {{alert.msg}}
-                    </div>
-                </div>
-            </div>
-
             <ui-view></ui-view>
         </div>
     </div>
@@ -72,7 +54,7 @@
     <script src="js/app.js"></script>
     <script src="js/modules/home/homeController.js"></script>
     <script src="js/services/socketService.js"></script>
-    <script src="js/modules/alert/alertController.js"></script>
+    <script src="js/modules/missingcards/missingCardsController.js"></script>
 </body>
 
 </html>

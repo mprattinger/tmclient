@@ -24,6 +24,11 @@ angular.module("tmclient.home").controller("homeController", ["$scope", "$http",
         $scope.system.ip = data.ips[0];
     });
 
+    socketService.on("newlogentry", function(data){
+        //data -> level, message
+        $scope.logs.unshift(data);
+    });
+
     $scope.changeStatus = function(){
 
     }

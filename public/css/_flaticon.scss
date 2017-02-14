@@ -1,6 +1,6 @@
     /*
     Flaticon icon font: Flaticon
-    Creation date: 17/10/2016 22:01
+    Creation date: 14/02/2017 21:37
     */
 
     @font-face {
@@ -39,13 +39,15 @@
     .flaticon-busines-card:before { content: "\f100"; }
 .flaticon-calendar-with-squares:before { content: "\f101"; }
 .flaticon-chain-of-command:before { content: "\f102"; }
-.flaticon-two-big-gears:before { content: "\f103"; }
-.flaticon-work-team:before { content: "\f104"; }
-.flaticon-worker-with-tie:before { content: "\f105"; }
+.flaticon-home:before { content: "\f103"; }
+.flaticon-two-big-gears:before { content: "\f104"; }
+.flaticon-work-team:before { content: "\f105"; }
+.flaticon-worker-with-tie:before { content: "\f106"; }
     
     $font-Flaticon-busines-card: "\f100";
     $font-Flaticon-calendar-with-squares: "\f101";
     $font-Flaticon-chain-of-command: "\f102";
-    $font-Flaticon-two-big-gears: "\f103";
-    $font-Flaticon-work-team: "\f104";
-    $font-Flaticon-worker-with-tie: "\f105";
+    $font-Flaticon-home: "\f103";
+    $font-Flaticon-two-big-gears: "\f104";
+    $font-Flaticon-work-team: "\f105";
+    $font-Flaticon-worker-with-tie: "\f106";

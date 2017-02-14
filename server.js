@@ -12,7 +12,7 @@ var fs = require("fs");
 var routesMod = require("./routes")
 var sockets = require("./sockets/sockets");
 
-module.exports.runServer = function (ui) {
+module.exports.runServer = function (ui, db) {
     var app = express();
 
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,7 +38,7 @@ module.exports.runServer = function (ui) {
     });
 
     //Routes
-    var routes = new routesMod(ui);
+    var routes = new routesMod(ui, db);
     app.use("/api", routes.router);
 
     app.use((req, res, next) => {

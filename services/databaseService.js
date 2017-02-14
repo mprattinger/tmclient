@@ -21,7 +21,8 @@ class DatabaseService {
         winston.info("Storing unknown card with id " + cardId);
 
         var doc = {
-            "cardId": cardId
+            "cardId": cardId,
+            "lastTry": new Date()
         }
 
         winston.info("Checking if unknown card already in the store...");
@@ -49,6 +50,25 @@ class DatabaseService {
         });
 
         return q.promise;
+    }
+
+    getUnknownCards() {
+        var deferred = q.defer();
+
+        winston.info("Load all unknown cardIds from database store!");
+
+        this.db.find({}, (err, res) => {
+            if (err) {
+                winston.error("Error loading all cardids from the store!", err);
+                deferred.reject(err);
+                return;
+            }
+
+            winston.info("Found " + res.length + " cards in database!");
+            deferred.resolve(res);
+        });
+
+        return deferred.promise;
     }
 }
 
