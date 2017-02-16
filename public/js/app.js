@@ -9,10 +9,20 @@ app.config(["$urlRouterProvider", "$stateProvider", function($urlRouterProvider,
         templateUrl: "js/modules/home/homeView.html",
         controller: "homeController"
     });
-    $stateProvider.state("missingcards", {
+    $stateProvider
+    .state("missingcards", {
         url: "/missingc",
         name: "missingcards",
         templateUrl: "js/modules/missingcards/missingCardsView.html",
         controller: "missingCardsController"
+    })
+    .state("missingcards.detail", {
+        url:"/missingc/:id",
+        views: {
+            '@': {
+                templateUrl: "js/modules/missingcards/missingCardView.html",
+                controller: "missingCardController"
+            }
+        }
     });
 }]);

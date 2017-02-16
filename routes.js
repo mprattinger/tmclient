@@ -35,6 +35,21 @@ class Routes {
 
             });
         });
+
+        that.router.route("/getMissingCard/:id").get((req, res) => {
+            if(req.params.id){
+                that.db.getUnknownCard(req.params.id).then((data)=>{
+                    if(data){
+                        res.statusCode = 200;
+                        res.send(data);
+                    }
+                }, (err)=>{
+                    res.statusCode = 500;
+                });
+            } else {
+                res.statusCode = 404;
+            }
+        });
     }
 }
 

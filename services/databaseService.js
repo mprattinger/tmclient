@@ -70,6 +70,25 @@ class DatabaseService {
 
         return deferred.promise;
     }
+
+    getUnknownCard(id) {
+        var deferred = q.defer();
+
+        winston.info("Load all unknown cardIds from database store!");
+
+        this.db.findOne({"card" : id}, (err, res) => {
+            if (err) {
+                winston.error("Error loading card with id " + id + " from the store!", err);
+                deferred.reject(err);
+                return;
+            }
+
+            winston.info("Found card " + res + " in database");
+            deferred.resolve(res);
+        });
+
+        return deferred.promise;
+    }
 }
 
 module.exports = DatabaseService;
