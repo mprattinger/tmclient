@@ -1,1 +1,22 @@
-<h3>Detail</h3>
+<div id="box" class="missing-card-detail">
+    <div class="box-top">
+        <h4>Unbekannte Chip-ID {{card.cardId}}</h4>
+    </div>
+    <div class="box-panel">
+        <div class="cards"> 
+            <p id="missing-card-detail-description">Bitte die Chip-Id einen Mitarbeiter zuordnen, um ihn beim nächsten Mal identifizieren zu können!</p>
+            <label for="cardid">Unbek. Chip-Id</label>
+            </br />
+            <input type="text" id="cardid" readonly ng-model="card.cardId" />
+            <br />
+            <br />
+            <label for="employeeSelect">Mitarbeiter:</label>
+            <select id="employeeSelect" ng-model="currentEmployeeId" ng-change="employeeChanged()" class="form-control">
+                <option ng-repeat="emp in employees" value="{{emp.id}}" ng-selected="currentEmployeeId == emp.id">{{emp.fullName}}</option>
+            </select>
+            <p>* Diese Mitarbeiter haben bereits einen Chip zugeordnet!</p>
+            <br />
+            <button class="btn btn-primary" ng-click="storeCardId()">Mitarbeiter aktualisieren</button>
+        </div>
+    </div>
+</div>

@@ -76,7 +76,7 @@ class DatabaseService {
 
         winston.info("Load all unknown cardIds from database store!");
 
-        this.db.findOne({"card" : id}, (err, res) => {
+        this.db.findOne({"cardId" : id}, (err, res) => {
             if (err) {
                 winston.error("Error loading card with id " + id + " from the store!", err);
                 deferred.reject(err);

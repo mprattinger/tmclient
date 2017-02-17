@@ -1,7 +1,14 @@
-<div class="cards">
-    <table>
-        <tr ng-repeat="card in missing">
-            <td><a ui-sref="missingcards.detail({id:card.cardId})" >{{card.cardId}}</a></td>
-        </tr>
-    </table>
+<div id="box">
+    <div class="box-top">
+        <h4>Unbekannte Chip-IDs</h4>
+    </div>
+    <div class="box-panel">
+        <div class="cards">
+            <table>
+                <tr ng-repeat="card in missing">
+                    <td><a ui-sref="missingcards.detail({id:card.cardId})">{{card.cardId}}</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
