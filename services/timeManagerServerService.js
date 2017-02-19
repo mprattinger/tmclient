@@ -7,14 +7,14 @@ var events = require("events");
 
 class TimeManagerServerService extends events.EventEmitter {
 
-    constructor(db) {
+    constructor(db, conf) {
         super();
 
-        //Serveradresse laden -> TODO
-        this.server = "localhost";
-        this.serverPort = 55319;
-        this.tmApiUrl = "/api/timemanager";
-        this.empApiUrl = "/api/employees";
+        //Serveradresse laden
+        this.server = conf.getTimeMangerServer();
+        this.serverPort = conf.getTimeMangerServer(); //55319;
+        this.tmApiUrl = conf.getTimeMangerServerApi(); //"/api/timemanager";
+        this.empApiUrl = conf.getTimeMangerServerEmployeeApi(); //"/api/employees";
 
         this.db = db;
     }

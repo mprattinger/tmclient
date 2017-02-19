@@ -13,6 +13,22 @@ class ConfigService {
             .file(this.configFile);
     }
 
+    getTimeMangerServer(){
+
+    }
+
+    getTimeMangerServer(){
+
+    }
+
+    getTimeMangerServerApi(){
+
+    }
+
+    getTimeMangerServerEmployeeApi(){
+        
+    }
+
 }
 
 module.exports = ConfigService;
