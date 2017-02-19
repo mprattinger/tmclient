@@ -2,13 +2,11 @@
 
 var winston = require("winston");
 
-var tmServiceMod = require("./services/timeManagerServerService");
 var workerMod = require("./worker/workerModule");
 
-module.exports.initHardware = function (io, ui, db) {
+module.exports.initHardware = function (io, ui, db, tmService) {
     var worker = new workerMod();
-    var tmService = new tmServiceMod(db);
-
+    
     worker.startCardChecker(function (uid) {
         io.emit("cardDetected", uid)
         //Send the data to the server

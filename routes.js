@@ -2,9 +2,10 @@
 
 class Routes {
 
-    constructor(ui, db) {
+    constructor(ui, db, tmService) {
         this.ui = ui;
         this.db = db;
+        this.tmService = tmService;
         this.router = require('express').Router();
 
         this._createRoutes();
@@ -37,18 +38,27 @@ class Routes {
         });
 
         that.router.route("/getMissingCard/:id").get((req, res) => {
-            if(req.params.id){
-                that.db.getUnknownCard(req.params.id).then((data)=>{
-                    if(data){
+            if (req.params.id) {
+                that.db.getUnknownCard(req.params.id).then((data) => {
+                    if (data) {
                         res.statusCode = 200;
                         res.send(data);
                     }
-                }, (err)=>{
+                }, (err) => {
                     res.statusCode = 500;
                 });
             } else {
                 res.statusCode = 404;
             }
+        });
+
+        that.router.route("/loadEmployees").get((req, res) => {
+            that.tmService.getEmployees().then((data) => {
+                res.statusCode = 200;
+                res.send(data);
+            }, (err) => {
+                res.statusCode = 500;
+            });
         });
     }
 }

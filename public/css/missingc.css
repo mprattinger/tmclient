@@ -1,3 +1,20 @@
-.cards{
+/*.cards{
     min-height: 500px;
+}*/
+
+#missing-card-detail-description{
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.missing-card-detail input{
+    font-weight: 600;
+    font-size: 1.2em;
+}
+.missing-card-detail label{
+    margin-right: 5px;
+}
+
+.missing-card-detail select{
+    width: 300px;
 }

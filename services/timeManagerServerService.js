@@ -13,7 +13,8 @@ class TimeManagerServerService extends events.EventEmitter {
         //Serveradresse laden -> TODO
         this.server = "localhost";
         this.serverPort = 55319;
-        this.apiUrl = "/api/timemanager";
+        this.tmApiUrl = "/api/timemanager";
+        this.empApiUrl = "/api/employees";
 
         this.db = db;
     }
@@ -36,7 +37,7 @@ class TimeManagerServerService extends events.EventEmitter {
         this.options = {};
         this.options.hostname = this.server;
         this.options.port = this.serverPort;
-        this.options.path = this.apiUrl;
+        this.options.path = this.tmApiUrl;
         this.options.method = "POST"
         this.options.headers = {
             "Content-Type": "application/json"
@@ -73,6 +74,76 @@ class TimeManagerServerService extends events.EventEmitter {
         });
     }
 
+    getEmployees() {
+        var that = this;
+        var deferred = q.defer();
+
+        winston.info("Loading employees from TimeManager-Server!");
+
+        //Prepare request
+        this.options = {};
+        this.options.hostname = this.server;
+        this.options.port = this.serverPort;
+        this.options.path = this.empApiUrl;
+        this.options.method = "GET";
+        this.options.headers = {
+            "Content-Type": "application/json"
+        };
+        winston.info("HTTP Request options: " + JSON.stringify(this.options));
+        this.getRequest().then(function (data) {
+            switch (data.statusCode) {
+                case 200:
+                    //Mitarbeiter geladen
+                    winston.info("Received Ok from the server with data " + JSON.stringify(data.data));
+                    //Daten zurücksenden
+                    deferred.resolve(data.data);
+                    break;
+                case 400:
+                    winston.error("Bad request send to server");
+                    deferred.reject("Bad request send to server");
+                    break;
+                default:
+                    winston.error("StatusCode " + data.statusCode + " not processed!");
+                    //deferred.reject("StatusCode not processed -> " + data.statusCode);
+                    deferred.reject("StatusCode not processed -> " + data.statusCode);
+                    break;
+            }
+        }, function (err) {
+            // deferred.reject(err);
+            this.emit("error", err);
+        });
+        return deferred.promise;
+    }
+
+    getRequest() {
+        var deferred = q.defer();
+        var req = http.request(this.options, function (res) {
+            //Prepare Result
+            var result = {};
+            result.statusCode = res.statusCode;
+            result.headers = res.headers;
+
+            res.on("data", function (body) {
+                try {
+                    result.data = JSON.parse(body);
+                } catch (e) {
+                    result.data = body;
+                }
+            })
+
+            res.on("end", function () {
+                deferred.resolve(result);
+            })
+        });
+        req.on("error", function (err) {
+            deferred.reject(err);
+        });
+
+        //Send data to server
+        req.end();
+        return deferred.promise;
+    }
+
     postRequest(data) {
         var deferred = q.defer();
         var req = http.request(this.options, function (res) {
@@ -83,37 +154,15 @@ class TimeManagerServerService extends events.EventEmitter {
 
             res.on("data", function (body) {
                 try {
-                    res.data = JSON.parse(body);
+                    result.data = JSON.parse(body);
                 } catch (e) {
-                    res.data = body;
+                    result.data = body;
                 }
-                // console.log("Body: " + body);
-                // var ret = {};
-                // ret.statusCode = res.statusCode;
-                // ret.headers = res.headers;
-                // if (body) {
-                //     ret.data = JSON.parse(body);
-                // }
-                // deferred.resolve(ret);
             })
 
             res.on("end", function () {
                 deferred.resolve(result);
             })
-
-            // console.log("Status: " + res.statusCode);
-            // console.log("Headers: " + JSON.stringify(res.headers));
-            // res.setEncoding("utf8");
-            // res.on("data", function (body) {
-            //     console.log("Body: " + body);
-            //     var ret = {};
-            //     ret.statusCode = res.statusCode;
-            //     ret.headers = res.headers;
-            //     if (body) {
-            //         ret.data = JSON.parse(body);
-            //     }
-            //     deferred.resolve(ret);
-            // })
         });
         req.on("error", function (err) {
             deferred.reject(err);
