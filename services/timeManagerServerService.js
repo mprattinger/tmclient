@@ -12,7 +12,7 @@ class TimeManagerServerService extends events.EventEmitter {
 
         //Serveradresse laden
         this.server = conf.getTimeMangerServer();
-        this.serverPort = conf.getTimeMangerServer(); //55319;
+        this.serverPort = conf.getTimeMangerServerPort(); //55319;
         this.tmApiUrl = conf.getTimeMangerServerApi(); //"/api/timemanager";
         this.empApiUrl = conf.getTimeMangerServerEmployeeApi(); //"/api/employees";
 

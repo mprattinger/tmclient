@@ -3,7 +3,7 @@ var path = require("path");
 
 class ConfigService {
 
-    constructor(){
+    constructor() {
 
         this.configFile = path.join(global.rootDir, "config.json");
 
@@ -13,20 +13,20 @@ class ConfigService {
             .file(this.configFile);
     }
 
-    getTimeMangerServer(){
-
+    getTimeMangerServer() {
+        return "localhost";
     }
 
-    getTimeMangerServer(){
-
+    getTimeMangerServerPort() {
+        return 55319;
     }
 
-    getTimeMangerServerApi(){
-
+    getTimeMangerServerApi() {
+        return "/api/timemanager";
     }
 
-    getTimeMangerServerEmployeeApi(){
-        
+    getTimeMangerServerEmployeeApi() {
+        return "/api/employees";
     }
 
 }

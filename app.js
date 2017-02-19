@@ -7,7 +7,7 @@ var sockets = require("./sockets/sockets");
 var httpServer = require("./server");
 var hardware = require("./hardware");
 var dbMod = require("./services/databaseService");
-var configService = require("./services/conifgService");
+var configService = require("./services/configService");
 // var cardCheckerMod = require("./cardChecker/checker");
 var tmServiceMod = require("./services/timeManagerServerService");
 
