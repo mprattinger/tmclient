@@ -8,7 +8,7 @@ var winston = require("winston");
 class DatabaseService {
 
     constructor() {
-        this._dbPath = path.join(__dirname, "tmclient.db");
+        this._dbPath = path.join(global.rootDir, "data", "tmclient.db");
         this.db = new nedb({
             "filename": this._dbPath,
             "autoload": true
@@ -74,7 +74,7 @@ class DatabaseService {
     getUnknownCard(id) {
         var deferred = q.defer();
 
-        winston.info("Load all unknown cardIds from database store!");
+        winston.info("Load card with cardId " + id + " from database store!");
 
         this.db.findOne({"cardId" : id}, (err, res) => {
             if (err) {

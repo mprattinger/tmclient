@@ -1,15 +1,15 @@
-var app = angular.module("tmclient", ["ui.router", "ui.bootstrap", "tmclient.home", "tmclient.services", "tmclient.missingcards"]);
+var app = angular.module("tmclient", ["ui.router", "ui.bootstrap", "tmclient.home", "tmclient.services", "tmclient.missingcards", "tmclient.settings"]);
 
 app.config(["$urlRouterProvider", "$stateProvider", function($urlRouterProvider, $stateProvider){
     $urlRouterProvider.otherwise("/");
 
-    $stateProvider.state("home", {
+    $stateProvider
+    .state("home", {
         url: "/",
         name: "home",
         templateUrl: "js/modules/home/homeView.html",
         controller: "homeController"
-    });
-    $stateProvider
+    })
     .state("missingcards", {
         url: "/missingc",
         name: "missingcards",
@@ -24,5 +24,11 @@ app.config(["$urlRouterProvider", "$stateProvider", function($urlRouterProvider,
                 controller: "missingCardController"
             }
         }
+    })
+    .state("settings", {
+        url: "/settings",
+        name: "settings",
+        templateUrl: "js/modules/settings/settingsView.html",
+        controller: "settingsController"
     });
 }]);

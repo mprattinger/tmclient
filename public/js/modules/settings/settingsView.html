@@ -1,0 +1,41 @@
+<div id="box">
+    <div class="box-top">
+        <h4>Einstellungen</h4>
+    </div>
+    <div class="box-panel">
+        <uib-tabset active="active">
+            <uib-tab index="0" heading="TM-Server Settings">
+                <form name="serverform">
+                    <label for="servername">Servername: </label>
+                    </br />
+                    <input type="text" id="servername" readonly ng-model="tmserver.servername" />
+                    </br />
+                    <label for="serverport">Port: </label>
+                    </br />
+                    <input type="number" id="serverport" readonly ng-model="tmserver.serverport" />
+                    </br />
+                    <label for="tmanagerapi">TimeManager API Path: </label>
+                    </br />
+                    <input type="text" id="tmanagerapi" readonly ng-model="tmserver.tmanagerapi" />
+                    </br />
+                    <label for="tmemployeeapi">TimeManager Employee API Path: </label>
+                    </br />
+                    <input type="text" id="tmemployeeapi" readonly ng-model="tmserver.tmemployeeapi" />
+                    <button type="submit" name="submitServerForm" ng-hide="lcdform.$pristine">Speichern</button>
+                </form>
+            </uib-tab>
+            <uib-tab index="1" heading="LCD Settings">
+                <form name="lcdform">
+                    <label for="splashline1">Splash-Text Zeile 1: </label>
+                    </br />
+                    <input type="text" id="splashline1" readonly ng-model="lcd.splashline1" />
+                    </br />
+                    <label for="splashline2">Splash-Text Zeile 2: </label>
+                    </br />
+                    <input type="number" id="splashline2" readonly ng-model="lcd.splashline2" />
+                    <button type="submit" name="submitLcdForm" ng-hide="lcdform.$pristine">Speichern</button>
+                </form>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

@@ -2,10 +2,11 @@
 
 class Routes {
 
-    constructor(ui, db, tmService) {
+    constructor(ui, db, tmService, settings) {
         this.ui = ui;
         this.db = db;
         this.tmService = tmService;
+        this.settings = settings;
         this.router = require('express').Router();
 
         this._createRoutes();
@@ -59,6 +60,10 @@ class Routes {
             }, (err) => {
                 res.statusCode = 500;
             });
+        });
+
+        that.router.route("/loadAllSettings").get((req, res) => {
+        
         });
     }
 }

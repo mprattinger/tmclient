@@ -24,7 +24,7 @@ logger.configLogger();
 
 winston.info("TMC gestartet!");
 
-var server = httpServer.runServer(ui, db, tmService);
+var server = httpServer.runServer(ui, db, tmService, conf);
 var io = sockets.listen(server.server);
 var hw = hardware.initHardware(io, ui, db, tmService);
 
