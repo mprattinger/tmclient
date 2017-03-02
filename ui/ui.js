@@ -9,9 +9,10 @@ var lcdMod = require("./lcd");
 
 class Ui extends events.EventEmitter {
 
-    constructor() {
+    constructor(conf) {
         super();
         var that = this;
+        this.conf = conf;
 
         if (os.platform == "linux") {
             var btnMod = require("./statusButton");
@@ -23,11 +24,41 @@ class Ui extends events.EventEmitter {
         that.btn.init();
 
         this.lcd = new lcdMod();
-        this.splashShowTime = 5000;
-        this.statusSwitchTimeout = 5000;
-        this.checkedInTimeout = 5000;
-        this.statusGo = "Gehen";
-        this.statusCome = "Kommen";
+
+        this.conf.getLcdSplashLine1().then(txt => {
+            that.splashLine1 = txt;
+        }, err => {
+        });
+        this.conf.getLcdSplashLine2().then(txt => {
+            that.splashLine2 = txt;
+        }, err => {
+        });
+        this.conf.getLcdSplashShowTime().then(time => {
+            that.splashShowTime = parseInt(txt);
+        }, err => {
+        });
+        this.conf.getLcdSwitchTimeout().then(txt => {
+            that.statusSwitchTimeout = parseInt(txt);
+        }, err => {
+        });
+        this.conf.getLcdCheckInTimeout().then(txt => {
+            that.checkedInTimeout = parseInt(txt);
+        }, err => {
+        });
+        this.conf.getLcdGoText().then(txt => {
+            that.statusGo = txt;
+        }, err => {
+        });
+        this.conf.getLcdComeText().then(txt => {
+            that.statusCome = txt;
+        }, err => {
+        });
+
+        // this.splashShowTime = 5000;
+        // this.statusSwitchTimeout = 5000;
+        // this.checkedInTimeout = 5000;
+        // this.statusGo = "Gehen";
+        // this.statusCome = "Kommen";
         this.go = this._getStandardStatus();
 
         this.lcd.on("lcdUpdated", function (lcdData) {
@@ -76,8 +107,8 @@ class Ui extends events.EventEmitter {
         var that = this;
         var deferred = q.defer();
 
-        this.lcd.setLine1("TimeManager 1.0");
-        this.lcd.setLine2("(c) MPrattinger");
+        this.lcd.setLine1(this.splashLine1);
+        this.lcd.setLine2(this.splashLine2);
         this.lcd.updateLcd().then(function () {
             that.emit("splashShown");
             setTimeout(function () {

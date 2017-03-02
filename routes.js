@@ -63,7 +63,33 @@ class Routes {
         });
 
         that.router.route("/loadAllSettings").get((req, res) => {
-        
+            that.settings.getAllSettings().then(data => {
+                res.statusCode = 200;
+                res.send(data);
+            }, (err) => {
+                res.statusCode = 500;
+                res.statusMessage(err);
+            });
+        });
+
+        that.router.route("/saveServerSettings").post((req, res)=>{
+            that.settings.saveServerSettings(req.body).then((ok)=>{
+                res.statusCode = 201;
+                res.send();
+            }, (err)=>{
+                res.statusCode = 500;
+                res.statusMessage(err);
+            });
+        });
+
+        that.router.route("/saveLcdSettings").post((req, res)=>{
+            that.settings.saveLcdSettings(req.body).then((ok)=>{
+                res.statusCode = 201;
+                res.send();
+            }, (err)=>{
+                res.statusCode = 500;
+                res.statusMessage(err);
+            });
         });
     }
 }

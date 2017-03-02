@@ -5,35 +5,57 @@
     <div class="box-panel">
         <uib-tabset active="active">
             <uib-tab index="0" heading="TM-Server Settings">
-                <form name="serverform">
-                    <label for="servername">Servername: </label>
-                    </br />
-                    <input type="text" id="servername" readonly ng-model="tmserver.servername" />
-                    </br />
-                    <label for="serverport">Port: </label>
-                    </br />
-                    <input type="number" id="serverport" readonly ng-model="tmserver.serverport" />
-                    </br />
-                    <label for="tmanagerapi">TimeManager API Path: </label>
-                    </br />
-                    <input type="text" id="tmanagerapi" readonly ng-model="tmserver.tmanagerapi" />
-                    </br />
-                    <label for="tmemployeeapi">TimeManager Employee API Path: </label>
-                    </br />
-                    <input type="text" id="tmemployeeapi" readonly ng-model="tmserver.tmemployeeapi" />
-                    <button type="submit" name="submitServerForm" ng-hide="lcdform.$pristine">Speichern</button>
+                <form name="forms.serverform" id="serverform" ng-submit="saveServer()" class="settings-form">
+                    <div class="form-group">
+                        <label for="servername">Servername:</label>
+                        <input type="text" id="servername" class="form-control" ng-model="tmserver.servername" />
+                    </div>
+                    <div class="form-group">
+                        <label for="serverport">Port:</label>
+                        <input type="number" id="serverport" class="form-control" ng-model="tmserver.serverport" />
+                    </div>
+                    <div class="form-group">
+                        <label for="tmanagerapi">TimeManager API Path:</label>
+                        <input type="text" id="tmanagerapi" class="form-control" ng-model="tmserver.tmapi" />
+                    </div>
+                    <div class="form-group">
+                        <label for="tmemployeeapi">TimeManager Employee API Path:</label>
+                        <input type="text" id="tmemployeeapi" class="form-control" ng-model="tmserver.empapi" />
+                    </div>
+                    <button type="submit" name="submitServerForm" class="btn btn-primary" ng-disabled="forms.serverform.$pristine">Speichern</button>
                 </form>
             </uib-tab>
             <uib-tab index="1" heading="LCD Settings">
-                <form name="lcdform">
-                    <label for="splashline1">Splash-Text Zeile 1: </label>
-                    </br />
-                    <input type="text" id="splashline1" readonly ng-model="lcd.splashline1" />
-                    </br />
-                    <label for="splashline2">Splash-Text Zeile 2: </label>
-                    </br />
-                    <input type="number" id="splashline2" readonly ng-model="lcd.splashline2" />
-                    <button type="submit" name="submitLcdForm" ng-hide="lcdform.$pristine">Speichern</button>
+                <form name="forms.lcdform" id="lcdform" ng-submit="saveLcd()" class="settings-form">
+                    <div class="form-group">
+                        <label for="splashline1">Splash-Text Zeile 1:</label>
+                        <input type="text" id="splashline1" class="form-control" ng-model="lcd.splashline1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="splashline2">Splash-Text Zeile 2:</label>
+                        <input type="text" id="splashline2" class="form-control" ng-model="lcd.splashline2" />
+                    </div>
+                    <div class="form-group">
+                        <label for="splashshowtime">Splashscreen Showtime:</label>
+                        <input type="number" id="splashshowtime" class="form-control" ng-model="lcd.splashshowtime" />
+                    </div>
+                    <div class="form-group">
+                        <label for="statusswitchtimeout">Statusänderung anzeigen:</label>
+                        <input type="number" id="statusswitchtimeout" class="form-control" ng-model="lcd.statusswitchtimeout" />
+                    </div>
+                    <div class="form-group">
+                        <label for="checkedintimeout">Checkin Erfolg Schirm anzeigen:</label>
+                        <input type="number" id="checkedintimeout" class="form-control" ng-model="lcd.checkintimeout" />
+                    </div>
+                    <div class="form-group">
+                        <label for="statusgo">Text Gehen:</label>
+                        <input type="text" id="statusgo" class="form-control" ng-model="lcd.statusgo" />
+                    </div>
+                    <div class="form-group">
+                        <label for="statuscome">Text Kommen:</label>
+                        <input type="text" id="statuscome" class="form-control" ng-model="lcd.statuscome" />
+                    </div>
+                    <button type="submit" name="submitLcdForm" class="btn btn-primary" ng-disabled="forms.lcdform.$pristine">Speichern</button>
                 </form>
             </uib-tab>
         </uib-tabset>

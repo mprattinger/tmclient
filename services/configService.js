@@ -60,35 +60,49 @@ class ConfigService {
             //Build Settingsreturn
             var ret = {};
             res.forEach(function (element) {
-                if (!element.group in ret) {
-                    ret[element.group.tostring()] = element.group;
-                }
-                ret[element.group.tostring() + "." + element.setting.tostring()] = element.value;
+                ret[String(element.group)] = ret[String(element.group)] || {};
 
-
-                // if(ret[element.group.tostring()] == null)
-                // switch (element.group) {
-                //     case "server":
-                //         switch (element.setting) {
-                //             case "servername":
-                //                 break;
-                //             case "serverport":
-                //                 break;
-                //             case "tmapi":
-                //                 break;
-                //             case "empapi":
-                //                 break;
-                //         }
-                //         break;
-                //     case "lcd":
-                //         break;
-                // }
+                ret[String(element.group)][String(element.setting)] = element.value;
             }, this);
 
-            deferred.resolve(res);
+            deferred.resolve(ret);
         });
 
         return deferred.promise;
+    }
+
+    saveServerSettings(data) {
+        return this.saveSetting("server", "servername", data.servername).then(
+            () => {
+                return this.saveSetting("server", "serverport", data.serverport);
+            }
+        ).then(
+            () => {
+                return this.saveSetting("server", "tmapi", data.tmapi);
+            }
+            ).then(
+            () => {
+                return this.saveSetting("server", "empapi", data.empapi);
+            }
+            );
+    }
+
+    saveLcdSettings(data) {
+        return this.saveSetting("lcd", "splashline1", data.splashline1).then(
+            () => {
+                return this.saveSetting("lcd", "splashline2", data.splashline2);
+            }
+        ).then(()=>{
+            return this.saveSetting("lcd", "splashshowtime", data.splashshowtime)   
+        }).then(()=>{
+            return this.saveSetting("lcd", "statusswitchtimeout", data.statusswitchtimeout)   
+        }).then(()=>{
+            return this.saveSetting("lcd", "checkintimeout", data.checkintimeout)   
+        }).then(()=>{
+            return this.saveSetting("lcd", "statusgo", data.statusgo)   
+        }).then(()=>{
+            return this.saveSetting("lcd", "statuscome", data.statuscome)   
+        });
     }
 
     getTimeMangerServer() {
@@ -101,14 +115,39 @@ class ConfigService {
 
     getTimeMangerServerApi() {
         return this.loadSetting("server", "tmapi");
-        // return "/api/timemanager";
     }
 
     getTimeMangerServerEmployeeApi() {
         return this.loadSetting("server", "empapi");
-        // return "/api/employees";
     }
 
+    getLcdSplashLine1() {
+        return this.loadSetting("lcd", "splashline1");
+    }
+
+    getLcdSplashLine2() {
+        return this.loadSetting("lcd", "splashline2");
+    }
+
+    getLcdSplashShowTime() {
+        return this.loadSetting("lcd", "splashshowtime");
+    }
+
+    getLcdSwitchTimeout() {
+        return this.loadSetting("lcd", "statusswitchtimeout");
+    }
+
+    getLcdCheckInTimeout() {
+        return this.loadSetting("lcd", "checkintimeout");
+    }
+
+    getLcdGoText() {
+        return this.loadSetting("lcd", "statusgo");
+    }
+
+    getLcdComeText() {
+        return this.loadSetting("lcd", "statuscome");
+    }
 
     loadSetting(group, setting) {
         var deferred = q.defer();
@@ -122,13 +161,51 @@ class ConfigService {
                 return;
             }
 
-            winston.info("Found setting " + res + " in database");
-            deferred.resolve(res);
+            // winston.info("Found setting " + res + " in database");
+            if (res) {
+                deferred.resolve(res.value);
+            }
         });
 
         return deferred.promise;
     }
 
+    saveSetting(group, setting, value) {
+        var that = this;
+        var deferred = q.defer();
+
+        winston.info("Save setting " + setting + " with value " + value + " for group " + group);
+        this.db.update({ "group": group, "setting": setting }, { $set: { "value": value } }, {}, (err, repl) => {
+            if (err) {
+                winston.error("Error updating setting for group " + group + ", setting " + setting + " with value " + value, err);
+                deferred.reject(err);
+                return;
+            }
+
+            //Wenn repl (aktualisierte Dokumente) 0 ist, dann wurde nicht geupdated, weil kein Dokument gefunden wurder -> daher ein Insert machen
+            if (repl == 0) {
+                winston.info("Setting not in db -> insert required!");
+                var doc = {};
+                doc.group = group;
+                doc.setting = setting;
+                doc.value = value;
+                that.db.insert(doc, (err, newdoc) => {
+                    if (err) {
+                        winston.error("Error inserting setting for group " + group + ", setting " + setting + " with value " + value, err);
+                        deferred.reject(err);
+                        return;
+                    }
+                    winston.info("Setting inserted!");
+                    deferred.resolve(repl);
+                });
+            } else {
+                winston.info("Setting updated!");
+                deferred.resolve(repl);
+            }
+        });
+
+        return deferred.promise;
+    }
 }
 
 module.exports = ConfigService;

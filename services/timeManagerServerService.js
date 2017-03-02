@@ -9,14 +9,36 @@ class TimeManagerServerService extends events.EventEmitter {
 
     constructor(db, conf) {
         super();
+        var that = this;
+        this.db = db;
+        this.conf = conf;
 
         //Serveradresse laden
-        this.server = conf.getTimeMangerServer();
-        this.serverPort = conf.getTimeMangerServerPort(); //55319;
-        this.tmApiUrl = conf.getTimeMangerServerApi(); //"/api/timemanager";
-        this.empApiUrl = conf.getTimeMangerServerEmployeeApi(); //"/api/employees";
+        this.server = "";
+        this.serverPort = 0;
+        this.tmApiUrl = "";
+        this.empApiUrl = "";
 
-        this.db = db;
+        conf.getTimeMangerServer().then((data) => {
+            that.server = data;
+        }, (err) => {
+            winston.error("Error loading TM-Server from db!");
+        });
+        conf.getTimeMangerServerPort().then((data) => {
+            that.serverPort = data;
+        }, (err) => {
+            winston.error("Error loading TM-Server Port from db!");
+        }); //55319;
+        conf.getTimeMangerServerApi().then((data) => {
+            that.tmApiUrl = data;
+        }, (err) => {
+            winston.error("Error loading TimeManager API path from db!");
+        }); //"/api/timemanager";
+        conf.getTimeMangerServerEmployeeApi().then((data) => {
+            that.empApiUrl = data;
+        }, (err) => {
+            winston.error("Error loading TimeManager-Server employee API path from db!");
+        }); //"/api/employees";
     }
 
     sendCard(cardId, go) {
