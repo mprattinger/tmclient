@@ -1,7 +1,7 @@
 "use strict";
 var lcdMod = null;
 const os = require("os");
-if(os.platform == "linux"){
+if(os.platform() == "linux"){
 	lcdMod = require("lcd");
 }else {
 	lcdMod = require("./lcdMock");

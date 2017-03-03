@@ -14,7 +14,7 @@ class Ui extends events.EventEmitter {
         var that = this;
         this.conf = conf;
 
-        if (os.platform == "linux") {
+        if (os.platform() == "linux") {
             var btnMod = require("./statusButton");
             that.btn = new btnMod();
         } else {
