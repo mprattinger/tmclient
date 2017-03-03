@@ -1,7 +1,7 @@
 "use strict";
 
 const events = require("events");
-const onoff = require("onoff");
+const onoff = require("onoff").Gpio;
 
 class Button extends events.EventEmitter {
 
