@@ -1,3 +1,5 @@
+"use strict";
+
 var checkerModule = require("./checker");
 var checker = new checkerModule();
 checker.init();
