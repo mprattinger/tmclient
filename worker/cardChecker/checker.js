@@ -12,7 +12,7 @@ class Checker extends events.EventEmitter {
 
 	init() {
 		this.continueChecking = false;
-		if (os.platform == "linux") {
+		if (os.platform() == "linux") {
 			var mfrc522 = require("mfrc522-rpi");
 			this.reader = new mfrc522;
 		}
