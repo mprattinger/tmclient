@@ -1,4 +1,6 @@
 
+"use strict";
+
 class MFRC522Mock{
 
     constructor(){
