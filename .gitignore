@@ -3,4 +3,4 @@ bower_components/
 log/
 .vscode/
 *.db
-data/*.db
+data/
