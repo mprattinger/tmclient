@@ -7,7 +7,7 @@ class Button extends events.EventEmitter {
 
     constructor() {
         super();
-        this.btn = new io(27, "in", "falling", { debounceTimeout: 300 });
+        this.btn = new onoff(27, "in", "falling", { debounceTimeout: 300 });
     }
 
     init() {
