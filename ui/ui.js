@@ -54,12 +54,8 @@ class Ui extends events.EventEmitter {
         }, err => {
         });
 
-        // this.splashShowTime = 5000;
-        // this.statusSwitchTimeout = 5000;
-        // this.checkedInTimeout = 5000;
-        // this.statusGo = "Gehen";
-        // this.statusCome = "Kommen";
         this.go = this._getStandardStatus();
+        this.standardMode = true;
 
         this.lcd.on("lcdUpdated", function (lcdData) {
             that.emit("lcdUpdated", lcdData);
@@ -107,6 +103,8 @@ class Ui extends events.EventEmitter {
         var that = this;
         var deferred = q.defer();
 
+        that.standardMode = false;
+
         this.lcd.setLine1(this.splashLine1);
         this.lcd.setLine2(this.splashLine2);
         this.lcd.updateLcd().then(function () {
@@ -123,6 +121,8 @@ class Ui extends events.EventEmitter {
     runStandardUi() {
         var that = this;
 
+        that.standardMode = true;
+
         that.lcd.setLine1(that._getTimeLine());
         that.lcd.setLine2(that._getStatusLine());
         this.lcd.updateLcd().then(function () {
@@ -138,10 +138,13 @@ class Ui extends events.EventEmitter {
         var that = this;
         var deferred = q.defer();
 
+        that.standardMode = false;
+
         that.go = !this.go;
         that.lcd.setLine2(that._getStatusLine());
         that.lcd.updateLcd()
         setTimeout(function () {
+            that.standardMode = true;
             that.go = that._getStandardStatus();
             that.lcd.setLine2(that._getStatusLine());
             that.lcd.updateLcd().then(function () {
@@ -154,9 +157,13 @@ class Ui extends events.EventEmitter {
 
     empCheckedIn(data) {
         var that = this;
+
+        that.standardMode = false;
         clearInterval(this.intervalId);
+
         this.lcd.setLine1("TimeManager 1.0");
         this.lcd.setLine2("(c) MPrattinger");
+        
         this.lcd.updateLcd().then(function () {
             setTimeout(function () {
                 that.runStandardUi();
@@ -174,13 +181,17 @@ class Ui extends events.EventEmitter {
     }
 
     _getStatusLine() {
+        if(this.standardMode){
+            this.go = this._getStandardStatus();
+        }
         if (this.go) return this.statusGo;
         else return this.statusCome;
     }
 
     _getStandardStatus() {
         var currDate = new Date();
-        if (currDate.getHours() > 10) {
+        var hours = currDate.getHours();
+        if (hours > 10) {
             return true;
         } else {
             return false;
