@@ -66,10 +66,6 @@ class Ui extends events.EventEmitter {
             that.emit("statusButtonPressed");
             that.changeStatus();
         })
-
-        that.tmService.on("checkedIn", function(data){
-            that.empCheckedIn(data);
-        });
     }
 
     init(io) {
