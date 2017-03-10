@@ -18,7 +18,7 @@ global.rootDir = __dirname;
 var db = new dbMod();
 var conf = new configService();
 var tmService = new tmServiceMod(db, conf);
-var ui = new uiMod(conf);
+var ui = new uiMod(conf, tmService);
 
 logger.configLogger();
 

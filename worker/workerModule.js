@@ -6,23 +6,23 @@ const winston = require("winston");
 
 class Worker {
 
-    constructor(conf, heartbeatCallback) {
+    constructor(conf) {
         this.config = conf;
 
         this.server = "";
         this.serverPort = 0;
 
-        conf.getTimeMangerServer().then((data) => {
-            that.server = data;
-            return that.conf.getTimeMangerServerPort();
-        }, (err) => {
-            winston.error("Error loading TM-Server from db!");
-        }).then((data) => {
-            that.serverPort = data;
-            that.startHeartbeat(heartbeatCallback);
-        }, (err) => {
-            winston.error("Error loading TM-Server Port from db!");
-        }); //55319;
+        // conf.getTimeMangerServer().then((data) => {
+        //     that.server = data;
+        //     return that.conf.getTimeMangerServerPort();
+        // }, (err) => {
+        //     winston.error("Error loading TM-Server from db!");
+        // }).then((data) => {
+        //     that.serverPort = data;
+        //     that.startHeartbeat(heartbeatCallback);
+        // }, (err) => {
+        //     winston.error("Error loading TM-Server Port from db!");
+        // }); //55319;
 
     }
 

@@ -25,7 +25,8 @@ class Routes {
         });
 
         that.router.route("/simulateCard").post(function (req, res) {
-            // ui.changeStatus();
+            var uid = req.body.card;
+            that.tmService.sendCard(uid, that.ui.go);
             res.statusCode = 200;
         });
 

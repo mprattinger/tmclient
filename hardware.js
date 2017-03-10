@@ -5,11 +5,7 @@ var winston = require("winston");
 var workerMod = require("./worker/workerModule");
 
 module.exports.initHardware = function (io, ui, db, tmService, conf) {
-    var worker = new workerMod(conf, function (data) {
-        if (data.statusCode != 200) {
-            io.emit("heartbeat");
-        }
-    });
+    var worker = new workerMod(conf);
 
     worker.startCardChecker(function (uid) {
         io.emit("cardDetected", uid)
