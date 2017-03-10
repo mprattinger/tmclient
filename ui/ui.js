@@ -171,6 +171,22 @@ class Ui extends events.EventEmitter {
         });
     }
 
+    heartbeatFailed(){
+        var that = this;
+
+        that.standardMode = false;
+        clearInterval(this.intervalId);
+
+        this.lcd.setLine1("Server-Conn");
+        this.lcd.setLine2("FAILED");
+        
+        this.lcd.updateLcd().then(function () {
+            setTimeout(function () {
+                that.runStandardUi();
+            }, that.checkedInTimeout);
+        });
+    }
+
     close() {
         this.lcd.close();
     }
