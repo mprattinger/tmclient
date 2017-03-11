@@ -123,6 +123,7 @@ class Ui extends events.EventEmitter {
 
     runStandardUi() {
         var that = this;
+        var runs = 0;
 
         that.standardMode = true;
         that.showMessage = false;
@@ -133,6 +134,10 @@ class Ui extends events.EventEmitter {
                 that.lcd.setLine1(that._getTimeLine());
                 that.lcd.setLine2(that._getStatusLine());
                 that.lcd.updateLcd()
+                runs++;
+                if((runs/1200) >= 1 && !that.showMessage){
+                    that._reinitLcd();
+                }
             }, 500);
         });
     }
@@ -200,6 +205,20 @@ class Ui extends events.EventEmitter {
 
     close() {
         this.lcd.close();
+    }
+
+    _reinitLcd(){
+        var that = this;
+        clearInterval(this.intervalId);
+        this.lcd.close();
+        this.lcd = null;
+
+        this.lcd = new lcdMod();
+        this.initUi().then(()=>{
+            this.runStandardUi();
+        }, err=>{
+
+        });
     }
 
     _getTimeLine() {

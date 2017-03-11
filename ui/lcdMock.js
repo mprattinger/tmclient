@@ -12,8 +12,8 @@ class LcdMock extends events.EventEmitter{
         }, 1000);
     }
 
-    clear(){
-
+    clear(cb){
+        cb();
     }
 
     setCursor(col, row){
