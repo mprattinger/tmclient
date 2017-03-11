@@ -35,15 +35,15 @@ class Ui extends events.EventEmitter {
         }, err => {
         });
         this.conf.getLcdSplashShowTime().then(time => {
-            that.splashShowTime = parseInt(txt);
+            that.splashShowTime = parseInt(time);
         }, err => {
         });
-        this.conf.getLcdSwitchTimeout().then(txt => {
-            that.statusSwitchTimeout = parseInt(txt);
+        this.conf.getLcdSwitchTimeout().then(time => {
+            that.statusSwitchTimeout = parseInt(time);
         }, err => {
         });
-        this.conf.getLcdCheckInTimeout().then(txt => {
-            that.checkedInTimeout = parseInt(txt);
+        this.conf.getLcdCheckInTimeout().then(time => {
+            that.checkedInTimeout = parseInt(time);
         }, err => {
         });
         this.conf.getLcdGoText().then(txt => {
@@ -133,7 +133,7 @@ class Ui extends events.EventEmitter {
                 that.lcd.setLine1(that._getTimeLine());
                 that.lcd.setLine2(that._getStatusLine());
                 that.lcd.updateLcd()
-            }, 1000);
+            }, 500);
         });
     }
 
