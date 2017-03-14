@@ -110,14 +110,14 @@ class Ui extends events.EventEmitter {
 
     _setLine1(line) {
         if (line != this.line1) {
-            this.line1 = line;
+            this.line1 = line.substring(0, 16);
             this.dirty = true;
         }
     }
 
     _setLine2(line) {
         if (line != this.line2) {
-            this.line2 = line;
+            this.line2 = line.substring(0, 16);
             this.dirty = true;
         }
     }
