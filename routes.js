@@ -20,7 +20,7 @@ class Routes {
         });
 
         that.router.route("/changeStatus").post(function (req, res) {
-            that.ui.changeStatus();
+            that.ui.setInverted();
             res.statusCode = 200;
         });
 

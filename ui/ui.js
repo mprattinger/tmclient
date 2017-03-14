@@ -244,6 +244,7 @@ class Ui extends events.EventEmitter {
             return false;
         }
     }
+    
 }
 
 module.exports = Ui;

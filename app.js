@@ -11,14 +11,15 @@ var configService = require("./services/configService");
 // var cardCheckerMod = require("./cardChecker/checker");
 var tmServiceMod = require("./services/timeManagerServerService");
 
-var uiMod = require("./ui/ui");
+//var uiMod = require("./ui/ui");
+var uiMod = require("./ui/ui2");
 
 global.rootDir = __dirname;
 
 var db = new dbMod();
 var conf = new configService();
 var tmService = new tmServiceMod(db, conf);
-var ui = new uiMod(conf, tmService);
+var ui = new uiMod(conf);
 
 logger.configLogger();
 

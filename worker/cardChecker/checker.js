@@ -39,7 +39,7 @@ class Checker extends events.EventEmitter {
 			//Card is present. Checking if debounce....
 			var diff = (new Date().getTime() - that.lastCard.getTime()) / 1000;
 			diff = Math.round(diff);
-			if (diff == 0) continue;
+			if (diff < 5) continue;
 
 			that.lastCard = new Date();
 			var uid = resp.data;
