@@ -95,7 +95,7 @@ class Ui extends events.EventEmitter {
         this.views.check_in.line1 = name;
         this.views.check_in.line2 = saldo;
         this.views.check_in.shownAt = Date.now();
-        winston.info("CHeckIn set with line1: " + name + ", line2: " + saldo);
+        winston.info("CheckIn set with line1: " + name + ", line2: " + saldo);
     }
 
     setSplash() {
@@ -155,7 +155,7 @@ class Ui extends events.EventEmitter {
 
     _check_error() {
         if (this.views.error.active) {
-            if (!that._check_active(this.views.error.shownAt, this.views.error.timeToShowMs)) {
+            if (!this._check_active(this.views.error.shownAt, this.views.error.timeToShowMs)) {
                 //Splash soll nicht mehr angezeigt werden
                 this.views.error.active = false;
                 this.views.error.shownAt = null;
@@ -172,7 +172,7 @@ class Ui extends events.EventEmitter {
 
     _check_checkin() {
         if (this.views.check_in.active) {
-            if (!that._check_active(this.views.check_in.shownAt, this.views.check_in.timeToShowMs)) {
+            if (!this._check_active(this.views.check_in.shownAt, this.views.check_in.timeToShowMs)) {
                 //Splash soll nicht mehr angezeigt werden
                 this.views.check_in.active = false;
                 this.views.check_in.shownAt = null;
