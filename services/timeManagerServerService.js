@@ -47,13 +47,13 @@ class TimeManagerServerService extends events.EventEmitter {
         winston.info("Sendung CardId " + cardId + " with go is " + go + "!");
         //Build payload
         var payload = {};
-        payload.cardId = cardId;
+        payload.TagUid = cardId;
         if (go) {
-            payload.mode = "Out";
+            payload.InOut = "Out";
         } else {
-            payload.mode = "In";
+            payload.InOut = "In";
         }
-        winston.info("Go " + go + " is translated to " + payload.mode);
+        winston.info("Go " + go + " is translated to " + payload.InOut);
 
         //Prepare request
         this.options = {};
