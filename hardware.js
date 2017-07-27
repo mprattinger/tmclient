@@ -25,10 +25,8 @@ module.exports.initHardware = function (io, ui, db, tmService, conf) {
         //Employee sucessfully checked in or out -> Write info to lcd
 
         var name = data.firstName + " " + data.lastName;
-        var saldo = data.saldo.hours + ":" + data.saldo.minutes;
-        if(data.saldo.negative) saldo = "-" + saldo;
 
-        ui.setCheckIn(name, saldo);
+        ui.setCheckIn(name, data.saldo);
     });
 
     //setTimeout(function() {

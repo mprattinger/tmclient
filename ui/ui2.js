@@ -93,7 +93,7 @@ class Ui extends events.EventEmitter {
     setCheckIn(name, saldo) {
         this.views.check_in.active = true;
         this.views.check_in.line1 = name;
-        this.views.check_in.line2 = saldo;
+        this.views.check_in.line2 = "Saldo: " + saldo;
         this.views.check_in.shownAt = Date.now();
         winston.info("CheckIn set with line1: " + name + ", line2: " + saldo);
     }
