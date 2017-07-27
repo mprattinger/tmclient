@@ -66,11 +66,11 @@ angular.module("tmclient.missingcards").controller("missingCardController", ["$s
             if (data) {
                 data.data.forEach(function (empRaw) {
                     var emp = {};
-                    emp.id = empRaw.id;
+                    emp.id = empRaw.employee.employeeID;
                     emp.firstName = empRaw.employee.firstName;
                     emp.lastName = empRaw.employee.lastName;
                     emp.fullName = emp.firstName + " " + emp.lastName;
-                    if (empRaw.tagId) {
+                    if (empRaw.tags && empRaw.tags.length > 0) {
                         emp.hasTag = true;
                         emp.fullName += "*";
                     }

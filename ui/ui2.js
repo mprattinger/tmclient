@@ -109,6 +109,10 @@ class Ui extends events.EventEmitter {
         winston.info("Inverted mode set active!");
     }
 
+    getMode(){
+        return this._check_inverted();
+    }
+
     _setLine1(line) {
         if (line != this.line1) {
             this.line1 = line.substring(0, 16);

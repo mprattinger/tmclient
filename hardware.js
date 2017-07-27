@@ -10,7 +10,7 @@ module.exports.initHardware = function (io, ui, db, tmService, conf) {
     worker.startCardChecker(function (uid) {
         io.emit("cardDetected", uid)
         //Send the data to the server
-        tmService.sendCard(uid, ui.go);
+        tmService.sendCard(uid, ui.getMode());
     });
 
     tmService.on("error", function (data) {

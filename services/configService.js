@@ -180,7 +180,7 @@ class ConfigService {
                 winston.error("Error updating setting for group " + group + ", setting " + setting + " with value " + value, err);
                 deferred.reject(err);
                 return;
-            }
+            }   
 
             //Wenn repl (aktualisierte Dokumente) 0 ist, dann wurde nicht geupdated, weil kein Dokument gefunden wurder -> daher ein Insert machen
             if (repl == 0) {
