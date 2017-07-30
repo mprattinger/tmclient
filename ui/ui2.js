@@ -63,6 +63,8 @@ class Ui extends events.EventEmitter {
                     } else if (that._check_error()) {
                         line1 = that.views.error.line1;
                         line2 = that.views.error.line2;
+                    } else if (that._check_sendCard_active()){
+                        line2 = that.views.setCheckIn.line2;
                     } else {
                         //Standard
                         line2 = that.views.standard.line2;
@@ -91,6 +93,8 @@ class Ui extends events.EventEmitter {
     }
 
     setCheckIn(name, saldo) {
+        //SendCard ausblenden
+        this.views.sendCard.active = false;
         this.views.check_in.active = true;
         this.views.check_in.line1 = name;
         this.views.check_in.line2 = "Saldo: " + saldo;
@@ -109,7 +113,13 @@ class Ui extends events.EventEmitter {
         winston.info("Inverted mode set active!");
     }
 
-    getMode(){
+    setSendCard() {
+        this.views.sendCard.active = true;
+        this.views.sendCard.shownAt = Date.now();
+        winston.info("SendCard set active!");
+    }
+
+    getMode() {
         return this._check_inverted();
     }
 
@@ -238,6 +248,14 @@ class Ui extends events.EventEmitter {
         return ret;
     }
 
+    _check_sendCard_active() {
+        if (this.views.check_in.active) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     _check_active(shownAt, tts) {
         //Prüfen ob es immer noch gezeigt werden soll:
         var checkDate = new Date(shownAt);
@@ -317,6 +335,7 @@ class Ui extends events.EventEmitter {
             that.views.check_in.timeToShowMs = parseInt(checkTime.valueOf());
             that.views.standard.line2 = goText.valueOf();
             that.views.inv_mode.line2 = comeText.valueOf();
+            that.views.sendCard.line2 = "Kontakt. Server"
             deferred.resolve();
         });
 
@@ -354,8 +373,13 @@ class Ui extends events.EventEmitter {
         views.error.line1 = "";
         views.error.line2 = "";
         views.error.shownAt = null;
-        views.error.timeToShowMs = 0;
-
+        views.error.timeToShowMs = 10000;
+        views.sendCard = {};
+        views.sendCard.active = false;
+        views.sendCard.line1 = "";
+        views.sendCard.line2 = "";
+        views.sendCard.shownAt = null;
+        views.splsendCardash.timeToShowMs = 0;
         this.views = views;
     };
 

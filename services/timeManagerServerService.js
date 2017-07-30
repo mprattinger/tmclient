@@ -39,6 +39,8 @@ class TimeManagerServerService extends events.EventEmitter {
 
     sendCard(cardId, inverted) {
         var that = this;
+        
+        that.emit("sendCard");
 
         that.loadConfig().then(function () {
             winston.info("Sendung CardId " + cardId + " with go is " + inverted + "!");
@@ -188,6 +190,13 @@ class TimeManagerServerService extends events.EventEmitter {
         });
         req.on("error", function (err) {
             deferred.reject(err);
+        });
+
+        req.on("socket", function(socket){
+            socket.setTimeout(7000);
+            socket.on("timeout", function(){
+                deferred.reject("Timeout");
+            });
         });
 
         //Send data to server

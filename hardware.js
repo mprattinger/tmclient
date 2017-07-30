@@ -16,9 +16,9 @@ module.exports.initHardware = function (io, ui, db, tmService, conf) {
     tmService.on("error", function (data) {
         //data kann ein Err-Objekt sein oder string
         if ((typeof data) == "string") {
-
+            ui.setError("Fehler b. senden", data);
         } else {
-
+            ui.setError("Fehler! Bitte", "kont. sie Admin" );
         }
     });
     tmService.on("checkedIn", function (data) {
@@ -27,6 +27,9 @@ module.exports.initHardware = function (io, ui, db, tmService, conf) {
         var name = data.firstName + " " + data.lastName;
 
         ui.setCheckIn(name, data.saldo);
+    });
+    tmService.on("sendCard", function(data){
+        
     });
 
     //setTimeout(function() {
