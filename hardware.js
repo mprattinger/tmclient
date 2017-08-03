@@ -11,7 +11,7 @@ module.exports.initHardware = function (io, ui, db, tmService, conf) {
         io.emit("cardDetected", uid)
 
         //Show CardDetected
-        ui.sendCard();
+        ui.setSendCard();
 
         //Send the data to the server
         tmService.sendCard(uid, ui.getMode());
