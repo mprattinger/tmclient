@@ -10,6 +10,7 @@ module.exports.initHardware = function (io, ui, db, tmService, conf) {
     worker.startCardChecker(function (uid) {
         io.emit("cardDetected", uid)
 
+        winston.info("Card detected! Writing info...")
         //Show CardDetected
         ui.setSendCard();
 
