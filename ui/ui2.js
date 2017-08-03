@@ -379,7 +379,7 @@ class Ui extends events.EventEmitter {
         views.sendCard.line1 = "";
         views.sendCard.line2 = "";
         views.sendCard.shownAt = null;
-        views.splsendCardash.timeToShowMs = 0;
+        views.sendCard.timeToShowMs = 0;
         this.views = views;
     };
 
