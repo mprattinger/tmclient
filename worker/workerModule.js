@@ -60,7 +60,7 @@ class Worker {
 
     startHeartbeat(fn) {
         var that = this;
-        that.callback = fn;
+        that.hbcallback = fn;
         var workerFile = path.join(__dirname, "heartbeat", "heartbeat.js");
         this.heartbeatJob = backgrounder.spawn(workerFile);
         var job = {};
@@ -77,10 +77,20 @@ class Worker {
         this.heartbeatJob.on("message", function (msg) {
             //that.emit(msg.type, msg.payload);
             var data = JSON.parse(msg);
-            if (data.type == "heartbeat") {
-                //Aufbereiten cardid@diff
-                var d = data.payload;
-                that.callback(d);
+            if (data.type == "heartbeat-ok") {
+                winston.info("heartbeat ok");
+                that.hbcallback("ok");
+            } else if (data.type == "debug") {
+                winston.info(data.payload);
+            } else {
+                //Error
+                if (data.payload.status && data.payload.status == "404") {
+                    winston.error("Error connecting server - 404 NotFound");
+                    that.hbcallback("err", "404 NotFound");
+                } else {
+                    winston.error("Error connecting server", data.payload);
+                    that.hbcallback("err", "Error connecting server!");
+                }
             }
         });
     }
@@ -90,6 +100,21 @@ class Worker {
         var jobStr = JSON.stringify(job);
         this.heartbeatJob.send(JSON.stringify(job), function (msg) {
             // winston.info("Backgrounder callback: " + msg);
+        });
+    }
+
+    loadConfig() {
+        var that = this;
+        return new Promise((res, rej) => {
+            that.config.getAllSettings().then((data) => {
+                that.server = data.server.servername;
+                that.serverPort = data.server.serverport;
+                // that.tmApiUrl = data.server.tmapi;
+                // that.empApiUrl = data.server.empapi;
+                res(data);
+            }, (err) => {
+                rej(err);
+            });
         });
     }
 }

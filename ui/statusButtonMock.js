@@ -11,7 +11,7 @@ class ButtonMock extends events.EventEmitter {
     init() {
         var that = this;
         setTimeout(function() {
-            that.emit("statusButtonPressed");
+            //that.emit("statusButtonPressed");
         }, 10000);
     }
 }

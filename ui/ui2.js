@@ -26,6 +26,8 @@ class Ui extends events.EventEmitter {
         this.line1 = "";
         this.line2 = "";
 
+        this.errorMs = 10000;
+
         this._buildViews();
 
         that.btn = new btnMod();
@@ -65,6 +67,9 @@ class Ui extends events.EventEmitter {
                         line2 = that.views.error.line2;
                     } else if (that._check_sendCard_active()){
                         line2 = that.views.setCheckIn.line2;
+                    } else if(that._check_heartbeat_active()){
+                        line1 = that.views.heartbeat.line1;
+                        line2 = that.views.heartbeat.line2;
                     } else {
                         //Standard
                         line2 = that.views.standard.line2;
@@ -86,6 +91,7 @@ class Ui extends events.EventEmitter {
     };
 
     setError(txtLine1, txtLine2) {
+        this.views.error.active = true;
         this.views.error.line1 = txtLine1;
         this.views.error.line2 = txtLine2;
         this.views.error.shownAt = Date.now();
@@ -117,6 +123,27 @@ class Ui extends events.EventEmitter {
         this.views.sendCard.active = true;
         this.views.sendCard.shownAt = Date.now();
         winston.info("SendCard set active!");
+    }
+
+    setHeartbeat(stat, data){
+        if(stat == "ok"){
+            //Fehler ausblenden
+            this.views.heartbeat.shownAt = null;
+            this.views.heartbeat.active = false;
+            winston.info("Heartbeat inactive");
+        } else {
+            //Fehler anzeigen
+            this.views.heartbeat.line1 = "Err server conn"
+            this.views.heartbeat.line2 = data;
+            // if(data == "timeout"){
+            //     this.views.heartbeat.line2 = "Timeout";
+            // } else {
+            //     this.views.heartbeat.line2 = data.errno;
+            // }
+            this.views.heartbeat.active = true;
+            this.views.heartbeat.shownAt = Date.now();
+            winston.info("Heartbeat error active");
+        }
     }
 
     getMode() {
@@ -169,6 +196,7 @@ class Ui extends events.EventEmitter {
 
     _check_error() {
         if (this.views.error.active) {
+            if(this.views.error.timeToShowMs == 0) return true; //Wenn 0 ms dann manuell ausschalten
             if (!this._check_active(this.views.error.shownAt, this.views.error.timeToShowMs)) {
                 //Splash soll nicht mehr angezeigt werden
                 this.views.error.active = false;
@@ -254,6 +282,10 @@ class Ui extends events.EventEmitter {
         } else {
             return false;
         }
+    }
+
+    _check_heartbeat_active() {
+        return this.views.heartbeat.active
     }
 
     _check_active(shownAt, tts) {
@@ -343,6 +375,7 @@ class Ui extends events.EventEmitter {
     };
 
     _buildViews() {
+        var that = this;
         var views = {};
         views.standard = {};
         views.standard.active = false;
@@ -373,13 +406,19 @@ class Ui extends events.EventEmitter {
         views.error.line1 = "";
         views.error.line2 = "";
         views.error.shownAt = null;
-        views.error.timeToShowMs = 10000;
+        views.error.timeToShowMs = that.errorMs;
         views.sendCard = {};
         views.sendCard.active = false;
-        views.sendCard.line1 = "";
-        views.sendCard.line2 = "";
+        views.sendCard.line1 = "Checkin is sent";
+        views.sendCard.line2 = "to server...";
         views.sendCard.shownAt = null;
         views.sendCard.timeToShowMs = 0;
+        views.heartbeat = {};
+        views.heartbeat.active = false;
+        views.heartbeat.line1 = "";
+        views.heartbeat.line2 = "";
+        views.heartbeat.shownAt = null;
+        views.heartbeat.timeToShowMs = 0;
         this.views = views;
     };
 

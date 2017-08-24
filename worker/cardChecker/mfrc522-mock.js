@@ -19,7 +19,7 @@ class MFRC522Mock{
         diff = Math.round(diff);
         if(diff == 5 && !this.cardFound){
             this.cardFound = true;
-            ret.status = true;
+            //ret.status = true;
         }
         return ret;
     }
