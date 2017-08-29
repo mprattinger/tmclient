@@ -41,7 +41,7 @@ class TimeManagerServerService extends events.EventEmitter {
         var that = this;
         
         that.emit("sendCard");
-
+        
         that.loadConfig().then(function () {
             winston.info("Sendung CardId " + cardId + " with go is " + inverted + "!");
             //Build payload

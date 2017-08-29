@@ -50,35 +50,50 @@ class Ui extends events.EventEmitter {
                 //MainLoop
                 winston.info("Starting lcd mainloop...")
                 setInterval(() => {
-                    //Mai die Zeit in die erste Zeile schreiben
+                    //Mal die Zeit in die erste Zeile schreiben
                     var line1 = that._getTimeLine();
                     var line2 = "";
                     //Entscheidungsbaum abfragen
                     if (that._check_inverted()) {
                         line2 = that.views.inv_mode.line2;
+                        winston.debug("Set line1 to " + line1);
+                        winston.debug("Set line2 to " + line2)
                     } else if (that._check_splash()) {
                         line1 = that.views.splash.line1;
                         line2 = that.views.splash.line2;
+                        winston.debug("Set line1 to " + line1);
+                        winston.debug("Set line2 to " + line2);
                     } else if (that._check_checkin()) {
                         line1 = that.views.check_in.line1;
                         line2 = that.views.check_in.line2;
+                        winston.debug("Set line1 to " + line1);
+                        winston.debug("Set line2 to " + line2)
                     } else if (that._check_error()) {
                         line1 = that.views.error.line1;
                         line2 = that.views.error.line2;
+                        winston.debug("Set line1 to " + line1);
+                        winston.debug("Set line2 to " + line2)
                     } else if (that._check_sendCard_active()){
-                        line2 = that.views.setCheckIn.line2;
+                        line1 = that.views.sendCard.line1;
+                        line2 = that.views.sendCard.line2;
+                        winston.debug("Set line1 to " + line1);
+                        winston.debug("Set line2 to " + line2)
                     } else if(that._check_heartbeat_active()){
                         line1 = that.views.heartbeat.line1;
                         line2 = that.views.heartbeat.line2;
+                        winston.debug("Set line1 to " + line1);
+                        winston.debug("Set line2 to " + line2)
                     } else {
                         //Standard
                         line2 = that.views.standard.line2;
+                        winston.debug("Set line1 to " + line1);
+                        winston.debug("Set line2 to " + line2)
                     }
 
                     that._setLine1(line1);
                     that._setLine2(line2);
                     that._updateLcd();
-                }, 500);
+                }, 200);
             }, err => {
                 deferred.reject(err);
             })
@@ -277,11 +292,7 @@ class Ui extends events.EventEmitter {
     }
 
     _check_sendCard_active() {
-        if (this.views.check_in.active) {
-            return true;
-        } else {
-            return false;
-        }
+       return this.views.check_in.active;
     }
 
     _check_heartbeat_active() {
@@ -367,7 +378,6 @@ class Ui extends events.EventEmitter {
             that.views.check_in.timeToShowMs = parseInt(checkTime.valueOf());
             that.views.standard.line2 = goText.valueOf();
             that.views.inv_mode.line2 = comeText.valueOf();
-            that.views.sendCard.line2 = "Kontakt. Server"
             deferred.resolve();
         });
 

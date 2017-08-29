@@ -34,70 +34,26 @@ function ping2(payload) {
     sa.get(path)
         .timeout({ "response": 5000, deadline: 7000 })
         .end((err, res) => {
+            var retry = 30000;
             if (err) {
                 if (err.timeout) {
                     sendMessage("heartbeat-error", "timeout");
+                    retry = 10000;
                 } else {
                     sendMessage("heartbeat-error", err);
+                    retry = 10000;
                 }
             } else {
                 if (res.text == "pong") {
                     sendMessage("heartbeat-ok", "ok");
                 } else {
                     sendMessage("heartbeat-error", err);
+                    retry = 10000;
                 }
             }
             //Retry in 10 seconds
             timeout = setTimeout(() => {
                 ping2(payload);
-            }, 10000);
+            }, retry);
         });
-}
-
-function ping(payload) {
-    //ping
-    sendMessage("debug", "Sending ping to server...");
-    var options = {};
-    options.hostname = payload.server;
-    options.port = payload.serverPort;
-    options.path = "/ping";
-    options.method = "GET";
-    var req = http.request(options, function (res) {
-        //Prepare Result
-        var result = {};
-        result.statusCode = res.statusCode;
-        result.headers = res.headers;
-
-        res.on("data", function (body) {
-            sendMessage("debug", body);
-            if (body == "pong") {
-                sendMessage("heartbeat-ok", "ok");
-                //Retry in 10 seconds
-                timeout = setTimeout(() => {
-                    ping(payload);
-                }, 10000);
-            }
-        })
-    });
-
-    req.on("error", function (err) {
-        sendMessage("heartbeat-error", err);
-        //Retry in 10 seconds
-        timeout = setTimeout(() => {
-            ping(payload);
-        }, 10000);
-    });
-
-    req.on("socket", function (socket) {
-        socket.setTimeout(7000);
-        socket.on("timeout", function () {
-            sendMessage("heartbeat-error", "timeout");
-            //Retry in 10 seconds
-            timeout = setTimeout(() => {
-                ping(payload);
-            }, 10000);
-        });
-    });
-
-    req.end();
 }
