@@ -56,34 +56,34 @@ class Ui extends events.EventEmitter {
                     //Entscheidungsbaum abfragen
                     if (that._check_inverted()) {
                         line2 = that.views.inv_mode.line2;
-                        winston.debug("Set line1 to " + line1);
-                        winston.debug("Set line2 to " + line2)
+                        winston.info("Set line1 to " + line1);
+                        winston.info("Set line2 to " + line2)
                     } else if (that._check_splash()) {
                         line1 = that.views.splash.line1;
                         line2 = that.views.splash.line2;
-                        winston.debug("Set line1 to " + line1);
-                        winston.debug("Set line2 to " + line2);
+                        winston.info("Set line1 to " + line1);
+                        winston.info("Set line2 to " + line2);
                     } else if (that._check_checkin()) {
                         line1 = that.views.check_in.line1;
                         line2 = that.views.check_in.line2;
-                        winston.debug("Set line1 to " + line1);
-                        winston.debug("Set line2 to " + line2)
+                        winston.info("Set line1 to " + line1);
+                        winston.info("Set line2 to " + line2)
                     } else if (that._check_error()) {
                         line1 = that.views.error.line1;
                         line2 = that.views.error.line2;
-                        winston.debug("Set line1 to " + line1);
-                        winston.debug("Set line2 to " + line2)
+                        winston.info("Set line1 to " + line1);
+                        winston.info("Set line2 to " + line2)
                     } else if (that._check_sendCard_active()){
                         line1 = that.views.sendCard.line1;
                         line2 = that.views.sendCard.line2;
-                        winston.debug("Set line1 to " + line1);
-                        winston.debug("Set line2 to " + line2)
+                        winston.info("Set line1 to " + line1);
+                        winston.info("Set line2 to " + line2)
                     } else if(that._check_heartbeat_active()){
                         line1 = that.views.heartbeat.line1;
                         line2 = that.views.heartbeat.line2;
-                        winston.debug("Set line1 to " + line1);
-                        winston.debug("Set line2 to " + line2)
-                    } else {
+                        winston.info("Set line1 to " + line1);
+                        winston.info("Set line2 to " + line2)
+                    } else {info
                         //Standard
                         line2 = that.views.standard.line2;
                         winston.debug("Set line1 to " + line1);
@@ -204,6 +204,7 @@ class Ui extends events.EventEmitter {
             that.dirty = false;
             that.emit("lcdUpdated", { "line1": that.line1, "line2": that.line2 });
             that.io.emit("lcdUpdated", { "line1": that.line1, "line2": that.line2 });
+            winston.info("Lcd updated! line1: " +  that.line1 + ", line2: " + that.line2);
             deferred.resolve();
         });
         return deferred.promise;
