@@ -86,8 +86,6 @@ class Ui extends events.EventEmitter {
                     } else {info
                         //Standard
                         line2 = that.views.standard.line2;
-                        winston.debug("Set line1 to " + line1);
-                        winston.debug("Set line2 to " + line2)
                     }
 
                     that._setLine1(line1);
