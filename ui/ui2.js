@@ -291,7 +291,7 @@ class Ui extends events.EventEmitter {
     }
 
     _check_sendCard_active() {
-       return this.views.check_in.active;
+       return this.views.sendCard.active;
     }
 
     _check_heartbeat_active() {
