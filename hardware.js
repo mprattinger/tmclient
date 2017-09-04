@@ -3,8 +3,10 @@
 var winston = require("winston");
 
 var workerMod = require("./worker/workerModule");
+var buzzerMod = require("./ui/registeredSound");
 
 module.exports.initHardware = function (io, ui, db, tmService, conf) {
+    var buzzer = new buzzerMod();
     var worker = new workerMod(conf);
     worker.loadConfig().then(ok => {
         worker.startCardChecker(function (uid) {
@@ -32,6 +34,7 @@ module.exports.initHardware = function (io, ui, db, tmService, conf) {
             var name = data.firstName + " " + data.lastName;
 
             ui.setCheckIn(name, data.saldo);
+            buzzer.playSound();
         });
         tmService.on("sendCard", function (data) {
 
