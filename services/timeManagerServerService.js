@@ -20,6 +20,7 @@ class TimeManagerServerService extends events.EventEmitter {
         this.empApiUrl = "";
 
         //this.loadConfig();
+        this.buzzer = null;
     }
 
     loadConfig() {

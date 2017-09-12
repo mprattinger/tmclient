@@ -8,6 +8,9 @@ var buzzerMod = require("./ui/registeredSound");
 module.exports.initHardware = function (io, ui, db, tmService, conf) {
     var buzzer = new buzzerMod();
     var worker = new workerMod(conf);
+
+    tmService.buzzer = buzzer;
+
     worker.loadConfig().then(ok => {
         worker.startCardChecker(function (uid) {
             io.emit("cardDetected", uid)

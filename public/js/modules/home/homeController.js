@@ -48,4 +48,12 @@ angular.module("tmclient.home").controller("homeController", ["$scope", "$http",
         });
     }
 
+    $scope.beep = function() {
+        $http.post("/api/beep").then(function(res) {
+            console.log("Beeped!");
+        }, function(err) {
+            console.log(err);
+        });
+    }
+
 }]);

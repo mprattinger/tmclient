@@ -30,6 +30,11 @@ class Routes {
             res.statusCode = 200;
         });
 
+        that.router.route("/beep").post(function (req, res) {
+            that.tmService.buzzer.playSound();
+            res.statusCode = 200;
+        });
+
         that.router.route("/getMissingCards").get((req, res) => {
             that.db.getUnknownCards().then((data) => {
                 res.statusCode = 200;
