@@ -30,4 +30,4 @@ class Sound {
     }
 }
 
-module.exports = Button;
+module.exports = Sound;
